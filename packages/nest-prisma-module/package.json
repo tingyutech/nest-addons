@@ -1,0 +1,29 @@
+{
+  "name": "@tingyutech/nest-prisma-module",
+  "version": "0.0.1",
+  "packageManager": "yarn@4.2.2",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@prisma/client": "^6.4.1",
+    "typescript": "^5.5.4"
+  },
+  "peerDependencies": {
+    "@prisma/client": "*",
+    "@nestjs/common": "*"
+  },
+  "scripts": {
+    "watch": "tsc -w --incremental"
+  }
+}

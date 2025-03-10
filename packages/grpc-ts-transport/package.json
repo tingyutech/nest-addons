@@ -1,0 +1,40 @@
+{
+  "name": "@tingyutech/nest-js-grpc-ts-transport",
+  "version": "0.0.1",
+  "packageManager": "yarn@4.2.2",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "debug": "^4.3.5",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.1"
+  },
+  "devDependencies": {
+    "@grpc/grpc-js": "npm:@tingyutech/grpc-js@1.12.2-fork1",
+    "@nestjs/core": "^11.0.11",
+    "@nestjs/microservices": "^11.0.11",
+    "@protobuf-ts/runtime-rpc": "npm:@tingyutech/protobuf-ts-runtime-rpc@2.9.5-fork3",
+    "@types/debug": "^4",
+    "typescript": "^5.5.4"
+  },
+  "scripts": {
+    "watch": "tsc -w --incremental"
+  },
+  "peerDependencies": {
+    "@grpc/grpc-js": "*",
+    "@nestjs/core": "*",
+    "@nestjs/microservices": "*",
+    "@protobuf-ts/runtime-rpc": "*"
+  }
+}

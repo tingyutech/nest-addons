@@ -1,0 +1,27 @@
+{
+  "name": "@tingyutech/protobuf-ts-rpc-utils",
+  "version": "0.0.1",
+  "packageManager": "yarn@4.2.2",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@protobuf-ts/runtime-rpc": "npm:@tingyutech/protobuf-ts-runtime-rpc@latest"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.4"
+  },
+  "scripts": {
+    "watch": "tsc -w --incremental"
+  }
+}
