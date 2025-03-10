@@ -1,0 +1,25 @@
+{
+  "name": "@example/server",
+  "packageManager": "yarn@4.2.2",
+  "type": "module",
+  "dependencies": {
+    "@nestjs/common": "^10.3.9",
+    "@nestjs/core": "^10.3.9",
+    "@nestjs/platform-fastify": "^10.3.9",
+    "debug": "^4.3.5",
+    "lodash": "^4.17.21",
+    "nestjs-zod": "^3.0.0",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.1",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@nestjs/swagger": "^7.3.1",
+    "@types/debug": "^4",
+    "@types/lodash": "^4",
+    "typescript": "^5.5.4"
+  },
+  "scripts": {
+    "watch": "tsc -w --incremental"
+  }
+}

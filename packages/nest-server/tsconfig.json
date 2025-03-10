@@ -1,0 +1,11 @@
+{
+  "extends": "@example/tsconfig/tsconfig.json",
+
+  "compilerOptions": {
+    "outDir": "dist",
+    "jsx": "preserve",
+    "lib": ["DOM"]
+  },
+
+  "include": ["src"]
+}
