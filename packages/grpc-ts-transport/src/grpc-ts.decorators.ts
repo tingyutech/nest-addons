@@ -6,13 +6,21 @@ import { GrpcTsContext } from './grpc-ts.context.js'
 import { GRPC_TS_TRANSPORT } from './grpc-ts.symbol.js'
 import { getFullName } from './internal/get-full-name.js'
 
-export type UnaryMethodHandler<I extends object = any, O extends object = any> = (payload: I) => Promise<O>
+export type UnaryMethodHandler<I extends object = any, O extends object = any> = (
+  payload: I,
+  ...args: any[]
+) => Promise<O>
 export type ClientStreamingMethodHandler<I extends object = any, O extends object = any> = (
   payload: Observable<I>,
+  ...args: any[]
 ) => Promise<O>
-export type ServerStreamingMethodHandler<I extends object = any, O extends object = any> = (payload: I) => Observable<O>
+export type ServerStreamingMethodHandler<I extends object = any, O extends object = any> = (
+  payload: I,
+  ...args: any[]
+) => Observable<O>
 export type BidiStreamingMethodHandler<I extends object = any, O extends object = any> = (
   payload: Observable<I>,
+  ...args: any[]
 ) => Observable<O>
 export type GrpcMethodHandler<I extends object = any, O extends object = any> =
   | UnaryMethodHandler<I, O>

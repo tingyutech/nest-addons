@@ -15,7 +15,7 @@ export class GrpcTsContext<I extends object = any, O extends object = any> {
   private clientStreamingCall?: grpc.ServerReadableStream<I, O>
   private serverStreamingCall?: grpc.ServerWritableStream<I, O>
   private bidiStreamingCall?: grpc.ServerDuplexStream<I, O>
-  private metadataSent = false
+  private headersSent = false
 
   public readonly trailers: Metadata = new Metadata()
   public readonly headers: Metadata = new Metadata()
@@ -46,29 +46,28 @@ export class GrpcTsContext<I extends object = any, O extends object = any> {
     return { code: grpc.status.INTERNAL, details: err.message, name: err.name, message: err.message }
   }
 
-  public sendMetadata() {
-    if (this.metadataSent) {
+  public sendHeaders() {
+    if (this.headersSent) {
       return
     }
 
     if (this.unaryCall) {
       this.unaryCall.sendMetadata(this.headers)
-      this.metadataSent = true
+      this.headersSent = true
     } else if (this.clientStreamingCall) {
       this.clientStreamingCall.sendMetadata(this.headers)
-      this.metadataSent = true
+      this.headersSent = true
     } else if (this.serverStreamingCall) {
       this.serverStreamingCall.sendMetadata(this.headers)
-      this.metadataSent = true
+      this.headersSent = true
     } else if (this.bidiStreamingCall) {
       this.bidiStreamingCall.sendMetadata(this.headers)
-      this.metadataSent = true
+      this.headersSent = true
     }
   }
 
   private handleUnaryCall: grpc.handleUnaryCall<I, O> = (call, callback) => {
     this.unaryCall = call
-    this.sendMetadata()
     const result = this.nestHandler(call.request, this)
     this.callbackResult(result, callback)
   }
@@ -112,7 +111,7 @@ export class GrpcTsContext<I extends object = any, O extends object = any> {
       .then((v) => (isObservable(v) ? firstValueFrom(v) : v))
       .then(
         (result) => {
-          this.sendMetadata()
+          this.sendHeaders()
           callback(null, result, this.trailers)
         },
         (err) => {
@@ -138,7 +137,7 @@ export class GrpcTsContext<I extends object = any, O extends object = any> {
             return
           }
 
-          this.sendMetadata()
+          this.sendHeaders()
           response$.subscribe({
             next: (v) => ssCall.write(v),
             error: (err) => ssCall.emit('error', err),

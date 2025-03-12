@@ -7,6 +7,8 @@ import { GrpcTsMethodExtras } from './grpc-ts.decorators.js'
 import { GRPC_TS_TRANSPORT } from './grpc-ts.symbol.js'
 import { getFullName } from './internal/get-full-name.js'
 import { createGrpcServiceImplementationProxy } from './internal/gprc-service-implementation-proxy.js'
+import { PackageDefinition } from '@grpc/proto-loader'
+import { ReflectionService } from '@grpc/reflection'
 
 const debug = createDebug('grpc-ts-transport')
 
@@ -15,8 +17,15 @@ export class GrpcTsTransport extends Server implements CustomTransportStrategy {
   private methodInfos: Map<string, MethodInfo> = new Map()
   private grpcServices: Map<string, Record<string, grpc.MethodDefinition<any, any>>> = new Map()
 
-  public constructor(private readonly grpcServer: grpc.Server) {
+  public constructor(
+    private readonly grpcServer: grpc.Server,
+    private readonly pkgDefinition?: PackageDefinition,
+  ) {
     super()
+    if (pkgDefinition) {
+      const reflection = new ReflectionService(pkgDefinition)
+      reflection.addToServer(this.grpcServer)
+    }
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
@@ -44,6 +53,7 @@ export class GrpcTsTransport extends Server implements CustomTransportStrategy {
   }
 
   public listen(callback: (...optionalParams: unknown[]) => any) {
+    debug('checking %d message handlers', this.messageHandlers.size)
     for (const [fullName, value] of this.messageHandlers.entries()) {
       const extras = value.extras as GrpcTsMethodExtras
       const method = extras.methodInfo
@@ -55,7 +65,7 @@ export class GrpcTsTransport extends Server implements CustomTransportStrategy {
       // construct grpc method definition dynamically
       const serviceDefinition = this.grpcServices.get(method.service.typeName) || {}
       serviceDefinition[method.name] = {
-        path: `/${method.service.typeName}/${method.name}`,
+        path: `/${fullName}`,
         originalName: method.name,
         requestStream: method.clientStreaming,
         responseStream: method.serverStreaming,
@@ -64,17 +74,26 @@ export class GrpcTsTransport extends Server implements CustomTransportStrategy {
         responseDeserialize: (b) => method.O.fromBinary(b),
         responseSerialize: (m) => Buffer.from(method.O.toBinary(m)),
       }
+      this.grpcServices.set(method.service.typeName, serviceDefinition)
 
       // save the method info by full name for later use
       this.methodInfos.set(fullName, method)
     }
 
     for (const [serviceName, methods] of this.grpcServices.entries()) {
-      debug('adding grpc service', serviceName)
+      debug('adding grpc service', serviceName, methods)
       this.grpcServer.addService(methods, createGrpcServiceImplementationProxy(this, serviceName))
     }
 
-    callback()
+    debug('binding grpc server to 0.0.0.0:50051')
+    this.grpcServer.bindAsync('0.0.0.0:50051', grpc.ServerCredentials.createInsecure(), (err) => {
+      if (err) {
+        console.error(err)
+        process.exit(1337)
+      }
+      debug('grpc server bound to 0.0.0.0:50051')
+      callback()
+    })
   }
 
   // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents

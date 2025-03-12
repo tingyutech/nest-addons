@@ -16,6 +16,8 @@
     "access": "public"
   },
   "dependencies": {
+    "@grpc/proto-loader": "^0.7.13",
+    "@grpc/reflection": "^1.0.4",
     "debug": "^4.3.5",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1"
