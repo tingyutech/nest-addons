@@ -1,5 +1,5 @@
 {
-  "name": "@tingyutech/nest-prisma-module",
+  "name": "@tingyutech/nest-pino-module",
   "version": "0.0.1",
   "packageManager": "yarn@4.2.2",
   "type": "module",
@@ -15,12 +15,17 @@
   "publishConfig": {
     "access": "public"
   },
+  "dependencies": {
+    "nestjs-pino": "^4.3.1",
+    "pino-http": "^10.4.0",
+    "pino-pretty": "^13.0.0"
+  },
   "devDependencies": {
+    "@nestjs/common": "^11.0.11",
     "typescript": "^5.5.4"
   },
   "peerDependencies": {
-    "@nestjs/common": "*",
-    "@prisma/client": "*"
+    "@nestjs/common": "*"
   },
   "scripts": {
     "watch": "tsc -w --incremental"
