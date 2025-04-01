@@ -26,6 +26,7 @@
     "@grpc/grpc-js": "npm:@tingyutech/grpc-js@1.12.2-fork1",
     "@nestjs/core": "^11.0.11",
     "@nestjs/microservices": "^11.0.11",
+    "@protobuf-ts/plugin": "npm:@tingyutech/protobuf-ts-plugin@2.9.5-fork2",
     "@protobuf-ts/runtime-rpc": "npm:@tingyutech/protobuf-ts-runtime-rpc@2.9.5-fork3",
     "@types/debug": "^4",
     "typescript": "^5.5.4"

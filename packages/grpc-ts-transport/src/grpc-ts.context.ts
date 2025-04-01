@@ -7,6 +7,9 @@ import { fromPromise } from 'rxjs/internal/observable/innerFrom'
 import createDebug from 'debug'
 import type { ObjectReadable, ObjectWritable } from '@grpc/grpc-js/build/src/object-stream.js'
 import type { ServerSurfaceCall } from '@grpc/grpc-js/build/src/server-call.js'
+import { GrpcTsDomainError } from './grpc-ts-domain-error.js'
+import { Status } from './pb/google/rpc/status.js'
+import { ErrorInfo } from './pb/google/rpc/error_details.js'
 
 const debug = createDebug('grpc-ts-transport:context')
 
@@ -15,10 +18,15 @@ export class GrpcTsContext<I extends object = any, O extends object = any> {
   private clientStreamingCall?: grpc.ServerReadableStream<I, O>
   private serverStreamingCall?: grpc.ServerWritableStream<I, O>
   private bidiStreamingCall?: grpc.ServerDuplexStream<I, O>
+
   private headersSent = false
+
+  public userData: Record<string | symbol, any> = {}
 
   public readonly trailers: Metadata = new Metadata()
   public readonly headers: Metadata = new Metadata()
+
+  public requestMetadata: Metadata = new Metadata()
 
   public constructor(
     public readonly methodInfo: MethodInfo<I, O>,
@@ -43,7 +51,40 @@ export class GrpcTsContext<I extends object = any, O extends object = any> {
 
   private transformError(err: Error): grpc.ServerErrorResponse {
     // TODO: transform error
-    return { code: grpc.status.INTERNAL, details: err.message, name: err.name, message: err.message }
+    debug('original error', err)
+    if (err instanceof GrpcTsDomainError) {
+      this.trailers.set('gt-error-code', `${err.domain}:${err.code}`)
+      const status = {
+        code: err.status,
+        message: err.message,
+        details: [
+          {
+            typeUrl: 'type.googleapis.com/google.rpc.ErrorInfo',
+            value: ErrorInfo.toBinary({
+              reason: err.code,
+              domain: err.domain,
+              metadata: {},
+            } satisfies ErrorInfo),
+          },
+        ],
+      } satisfies Status
+      this.trailers.set('grpc-status-details-bin', Buffer.from(Status.toBinary(status)))
+
+      return {
+        code: err.status,
+        details: err.message,
+        name: err.code,
+        message: err.message,
+        metadata: this.trailers,
+      }
+    }
+    return {
+      code: grpc.status.INTERNAL,
+      details: err.message,
+      name: err.name,
+      message: err.message,
+      metadata: this.trailers,
+    }
   }
 
   public sendHeaders() {
@@ -68,12 +109,14 @@ export class GrpcTsContext<I extends object = any, O extends object = any> {
 
   private handleUnaryCall: grpc.handleUnaryCall<I, O> = (call, callback) => {
     this.unaryCall = call
+    this.requestMetadata = call.metadata
     const result = this.nestHandler(call.request, this)
     this.callbackResult(result, callback)
   }
 
   private handleClientStreamingCall: grpc.handleClientStreamingCall<I, O> = (call, callback) => {
     this.clientStreamingCall = call
+    this.requestMetadata = call.metadata
     const clientRequest$ = this.clientStreamToObservable(call)
     const result = this.nestHandler(clientRequest$, this)
     this.callbackResult(result, callback)
@@ -81,12 +124,14 @@ export class GrpcTsContext<I extends object = any, O extends object = any> {
 
   private handleServerStreamingCall: grpc.handleServerStreamingCall<I, O> = (call) => {
     this.serverStreamingCall = call
+    this.requestMetadata = call.metadata
     const result = this.nestHandler(call.request, this)
     this.streamResult(result, call)
   }
 
   private handleBidiStreamingCall: grpc.handleBidiStreamingCall<I, O> = (call) => {
     this.bidiStreamingCall = call
+    this.requestMetadata = call.metadata
     const clientRequest$ = this.clientStreamToObservable(call)
     const result = this.nestHandler(clientRequest$, this)
     this.streamResult(result, call)
@@ -140,12 +185,12 @@ export class GrpcTsContext<I extends object = any, O extends object = any> {
           this.sendHeaders()
           response$.subscribe({
             next: (v) => ssCall.write(v),
-            error: (err) => ssCall.emit('error', err),
+            error: (err) => ssCall.emit('error', this.transformError(err)),
             complete: () => ssCall.end(this.trailers),
           })
         },
         (err) => {
-          ssCall.emit('error', err)
+          ssCall.emit('error', this.transformError(err))
         },
       )
   }

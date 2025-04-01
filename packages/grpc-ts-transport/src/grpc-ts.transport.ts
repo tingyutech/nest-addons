@@ -81,7 +81,11 @@ export class GrpcTsTransport extends Server implements CustomTransportStrategy {
     }
 
     for (const [serviceName, methods] of this.grpcServices.entries()) {
-      debug('adding grpc service', serviceName, methods)
+      debug(
+        'adding grpc service',
+        serviceName,
+        Object.values(methods).map((m) => m.path),
+      )
       this.grpcServer.addService(methods, createGrpcServiceImplementationProxy(this, serviceName))
     }
 
@@ -96,7 +100,6 @@ export class GrpcTsTransport extends Server implements CustomTransportStrategy {
     })
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
   public _proxy_getHandler(serviceName: string, methodName: string): grpc.UntypedHandleCall | undefined {
     const fullName = `${serviceName}/${methodName}`
     const handler = this.messageHandlers.get(fullName)
