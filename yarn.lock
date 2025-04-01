@@ -141,6 +141,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@ioredis/commands@npm:^1.1.1":
+  version: 1.2.0
+  resolution: "@ioredis/commands@npm:1.2.0"
+  checksum: 10c0/a5d3c29dd84d8a28b7c67a441ac1715cbd7337a7b88649c0f17c345d89aa218578d2b360760017c48149ef8a70f44b051af9ac0921a0622c2b479614c4f65b36
+  languageName: node
+  linkType: hard
+
 "@js-sdsl/ordered-map@npm:^4.4.2":
   version: 4.4.2
   resolution: "@js-sdsl/ordered-map@npm:4.4.2"
@@ -292,6 +299,50 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@protobuf-ts/plugin-framework@npm:@tingyutech/protobuf-ts-plugin-framework@2.9.5-fork2":
+  version: 2.9.5-fork2
+  resolution: "@tingyutech/protobuf-ts-plugin-framework@npm:2.9.5-fork2"
+  dependencies:
+    "@protobuf-ts/runtime": "npm:^2.9.5"
+    typescript: "npm:^3.9"
+  checksum: 10c0/34b0795b9f22ed86fd7c11df63751054bc5de406cc7d4b59eceea19c38e681a9d1fc5d68fe8390cae2c4cce1f5448fb027cea8cb02118417cb6417c1ffeca92e
+  languageName: node
+  linkType: hard
+
+"@protobuf-ts/plugin@npm:@tingyutech/protobuf-ts-plugin@2.9.5-fork2":
+  version: 2.9.5-fork2
+  resolution: "@tingyutech/protobuf-ts-plugin@npm:2.9.5-fork2"
+  dependencies:
+    "@protobuf-ts/plugin-framework": "npm:@tingyutech/protobuf-ts-plugin-framework@2.9.5-fork2"
+    "@protobuf-ts/protoc": "npm:^2.9.5"
+    "@protobuf-ts/runtime": "npm:^2.9.5"
+    "@protobuf-ts/runtime-rpc": "npm:@tingyutech/protobuf-ts-runtime-rpc@2.9.5-fork2"
+    typescript: "npm:^3.9"
+  bin:
+    protoc-gen-dump: bin/protoc-gen-dump
+    protoc-gen-ts: bin/protoc-gen-ts
+  checksum: 10c0/6b7eb7d5ead7f33a73c29b640af4f3d938b3cee0da7014711e06207e41aaafeb4fd56cbcc8d7fe87f53d205bf95b0d8d3fc967f36b2e42d3cf8d030732f4f5ce
+  languageName: node
+  linkType: hard
+
+"@protobuf-ts/protoc@npm:^2.9.5":
+  version: 2.9.5
+  resolution: "@protobuf-ts/protoc@npm:2.9.5"
+  bin:
+    protoc: protoc.js
+  checksum: 10c0/0298d0f5a079bec6b8ddd42c6159d6b45f8cad9d7ff47c8a6fa3e4276fc94b66bea673ed3bc8cd29ab039a68de7106cca4c4ea49838e36f94efd025686fa2812
+  languageName: node
+  linkType: hard
+
+"@protobuf-ts/runtime-rpc@npm:@tingyutech/protobuf-ts-runtime-rpc@2.9.5-fork2":
+  version: 2.9.5-fork2
+  resolution: "@tingyutech/protobuf-ts-runtime-rpc@npm:2.9.5-fork2"
+  dependencies:
+    "@protobuf-ts/runtime": "npm:^2.9.5"
+  checksum: 10c0/3a13dcb22909f4ebb74a8dcc6aafbc7df05b6144ce8071675105e92d7be2c1aa8abba3ba94eed5fea1fb36c35507aed985c765e4c7694754112886369307837a
+  languageName: node
+  linkType: hard
+
 "@protobuf-ts/runtime-rpc@npm:@tingyutech/protobuf-ts-runtime-rpc@2.9.5-fork3, @protobuf-ts/runtime-rpc@npm:@tingyutech/protobuf-ts-runtime-rpc@latest":
   version: 2.9.5-fork3
   resolution: "@tingyutech/protobuf-ts-runtime-rpc@npm:2.9.5-fork3"
@@ -404,6 +455,7 @@ __metadata:
     "@grpc/reflection": "npm:^1.0.4"
     "@nestjs/core": "npm:^11.0.11"
     "@nestjs/microservices": "npm:^11.0.11"
+    "@protobuf-ts/plugin": "npm:@tingyutech/protobuf-ts-plugin@2.9.5-fork2"
     "@protobuf-ts/runtime-rpc": "npm:@tingyutech/protobuf-ts-runtime-rpc@2.9.5-fork3"
     "@types/debug": "npm:^4"
     debug: "npm:^4.3.5"
@@ -440,6 +492,18 @@ __metadata:
   peerDependencies:
     "@nestjs/common": "*"
     "@prisma/client": "*"
+  languageName: unknown
+  linkType: soft
+
+"@tingyutech/nest-redis-module@workspace:packages/nest-redis-module":
+  version: 0.0.0-use.local
+  resolution: "@tingyutech/nest-redis-module@workspace:packages/nest-redis-module"
+  dependencies:
+    "@nestjs/common": "npm:^11.0.11"
+    ioredis: "npm:^5.6.0"
+    typescript: "npm:^5.5.4"
+  peerDependencies:
+    "@nestjs/common": "*"
   languageName: unknown
   linkType: soft
 
@@ -880,6 +944,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cluster-key-slot@npm:^1.1.0":
+  version: 1.1.2
+  resolution: "cluster-key-slot@npm:1.1.2"
+  checksum: 10c0/d7d39ca28a8786e9e801eeb8c770e3c3236a566625d7299a47bb71113fb2298ce1039596acb82590e598c52dbc9b1f088c8f587803e697cb58e1867a95ff94d3
+  languageName: node
+  linkType: hard
+
 "color-convert@npm:^2.0.1":
   version: 2.0.1
   resolution: "color-convert@npm:2.0.1"
@@ -1006,6 +1077,13 @@ __metadata:
     has-property-descriptors: "npm:^1.0.0"
     object-keys: "npm:^1.1.1"
   checksum: 10c0/88a152319ffe1396ccc6ded510a3896e77efac7a1bfbaa174a7b00414a1747377e0bb525d303794a47cf30e805c2ec84e575758512c6e44a993076d29fd4e6c3
+  languageName: node
+  linkType: hard
+
+"denque@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "denque@npm:2.1.0"
+  checksum: 10c0/f9ef81aa0af9c6c614a727cb3bd13c5d7db2af1abf9e6352045b86e85873e629690f6222f4edd49d10e4ccf8f078bbeec0794fafaf61b659c0589d0c511ec363
   languageName: node
   linkType: hard
 
@@ -1738,6 +1816,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ioredis@npm:^5.6.0":
+  version: 5.6.0
+  resolution: "ioredis@npm:5.6.0"
+  dependencies:
+    "@ioredis/commands": "npm:^1.1.1"
+    cluster-key-slot: "npm:^1.1.0"
+    debug: "npm:^4.3.4"
+    denque: "npm:^2.1.0"
+    lodash.defaults: "npm:^4.2.0"
+    lodash.isarguments: "npm:^3.1.0"
+    redis-errors: "npm:^1.2.0"
+    redis-parser: "npm:^3.0.0"
+    standard-as-callback: "npm:^2.1.0"
+  checksum: 10c0/a885e5146640fc448706871290ef424ffa39af561f7ee3cf1590085209a509f85e99082bdaaf3cd32fa66758aea3fc2055d1109648ddca96fac4944bf2092c30
+  languageName: node
+  linkType: hard
+
 "is-array-buffer@npm:^3.0.4":
   version: 3.0.4
   resolution: "is-array-buffer@npm:3.0.4"
@@ -2091,6 +2186,20 @@ __metadata:
   version: 4.3.0
   resolution: "lodash.camelcase@npm:4.3.0"
   checksum: 10c0/fcba15d21a458076dd309fce6b1b4bf611d84a0ec252cb92447c948c533ac250b95d2e00955801ebc367e5af5ed288b996d75d37d2035260a937008e14eaf432
+  languageName: node
+  linkType: hard
+
+"lodash.defaults@npm:^4.2.0":
+  version: 4.2.0
+  resolution: "lodash.defaults@npm:4.2.0"
+  checksum: 10c0/d5b77aeb702caa69b17be1358faece33a84497bcca814897383c58b28a2f8dfc381b1d9edbec239f8b425126a3bbe4916223da2a576bb0411c2cefd67df80707
+  languageName: node
+  linkType: hard
+
+"lodash.isarguments@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "lodash.isarguments@npm:3.1.0"
+  checksum: 10c0/5e8f95ba10975900a3920fb039a3f89a5a79359a1b5565e4e5b4310ed6ebe64011e31d402e34f577eca983a1fc01ff86c926e3cbe602e1ddfc858fdd353e62d8
   languageName: node
   linkType: hard
 
@@ -2570,6 +2679,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"redis-errors@npm:^1.0.0, redis-errors@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "redis-errors@npm:1.2.0"
+  checksum: 10c0/5b316736e9f532d91a35bff631335137a4f974927bb2fb42bf8c2f18879173a211787db8ac4c3fde8f75ed6233eb0888e55d52510b5620e30d69d7d719c8b8a7
+  languageName: node
+  linkType: hard
+
+"redis-parser@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "redis-parser@npm:3.0.0"
+  dependencies:
+    redis-errors: "npm:^1.0.0"
+  checksum: 10c0/ee16ac4c7b2a60b1f42a2cdaee22b005bd4453eb2d0588b8a4939718997ae269da717434da5d570fe0b05030466eeb3f902a58cf2e8e1ca058bf6c9c596f632f
+  languageName: node
+  linkType: hard
+
 "reflect-metadata@npm:^0.2.2":
   version: 0.2.2
   resolution: "reflect-metadata@npm:0.2.2"
@@ -2805,6 +2930,13 @@ __metadata:
   version: 4.2.0
   resolution: "split2@npm:4.2.0"
   checksum: 10c0/b292beb8ce9215f8c642bb68be6249c5a4c7f332fc8ecadae7be5cbdf1ea95addc95f0459ef2e7ad9d45fd1064698a097e4eb211c83e772b49bc0ee423e91534
+  languageName: node
+  linkType: hard
+
+"standard-as-callback@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "standard-as-callback@npm:2.1.0"
+  checksum: 10c0/012677236e3d3fdc5689d29e64ea8a599331c4babe86956bf92fc5e127d53f85411c5536ee0079c52c43beb0026b5ce7aa1d834dd35dd026e82a15d1bcaead1f
   languageName: node
   linkType: hard
 
@@ -3067,6 +3199,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"typescript@npm:^3.9":
+  version: 3.9.10
+  resolution: "typescript@npm:3.9.10"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 10c0/863cc06070fa18a0f9c6a83265fb4922a8b51bf6f2c6760fb0b73865305ce617ea4bc6477381f9f4b7c3a8cb4a455b054f5469e6e41307733fe6a2bd9aae82f8
+  languageName: node
+  linkType: hard
+
 "typescript@patch:typescript@npm%3A*#optional!builtin<compat/typescript>, typescript@patch:typescript@npm%3A^5.5.4#optional!builtin<compat/typescript>":
   version: 5.5.4
   resolution: "typescript@patch:typescript@npm%3A5.5.4#optional!builtin<compat/typescript>::version=5.5.4&hash=b45daf"
@@ -3074,6 +3216,16 @@ __metadata:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 10c0/10dd9881baba22763de859e8050d6cb6e2db854197495c6f1929b08d1eb2b2b00d0b5d9b0bcee8472f1c3f4a7ef6a5d7ebe0cfd703f853aa5ae465b8404bc1ba
+  languageName: node
+  linkType: hard
+
+"typescript@patch:typescript@npm%3A^3.9#optional!builtin<compat/typescript>":
+  version: 3.9.10
+  resolution: "typescript@patch:typescript@npm%3A3.9.10#optional!builtin<compat/typescript>::version=3.9.10&hash=3bd3d3"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 10c0/9041fb3886e7d6a560f985227b8c941d17a750f2edccb5f9b3a15a2480574654d9be803ad4a14aabcc2f2553c4d272a25fd698a7c42692f03f66b009fb46883c
   languageName: node
   linkType: hard
 
