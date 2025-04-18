@@ -101,15 +101,17 @@ export class GrpcTsTransport extends Server implements CustomTransportStrategy {
   }
 
   public _proxy_getHandler(serviceName: string, methodName: string): grpc.UntypedHandleCall | undefined {
-    const fullName = `${serviceName}/${methodName}`
-    const handler = this.messageHandlers.get(fullName)
-    const methodInfo = this.methodInfos.get(fullName)
-    if (!handler || !methodInfo) {
-      return undefined
-    }
+    return (call: any, callback: any) => {
+      const fullName = `${serviceName}/${methodName}`
+      const handler = this.messageHandlers.get(fullName)
+      const methodInfo = this.methodInfos.get(fullName)
+      if (!handler || !methodInfo) {
+        return undefined
+      }
 
-    debug('creating context for method', fullName)
-    const ctx = new GrpcTsContext(methodInfo, handler)
-    return ctx._transport_getGrpcCall()
+      debug('creating context for method', fullName)
+      const ctx = new GrpcTsContext(methodInfo, handler)
+      return ctx._transport_getGrpcCall()(call, callback)
+    }
   }
 }

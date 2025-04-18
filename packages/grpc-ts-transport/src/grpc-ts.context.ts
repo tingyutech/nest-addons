@@ -13,6 +13,8 @@ import { ErrorInfo } from './pb/google/rpc/error_details.js'
 
 const debug = createDebug('grpc-ts-transport:context')
 
+let id = 0
+
 export class GrpcTsContext<I extends object = any, O extends object = any> {
   private unaryCall?: grpc.ServerUnaryCall<I, O>
   private clientStreamingCall?: grpc.ServerReadableStream<I, O>
@@ -21,7 +23,8 @@ export class GrpcTsContext<I extends object = any, O extends object = any> {
 
   private headersSent = false
 
-  public userData: Record<string | symbol, any> = {}
+  public userData: Record<string | symbol, any>
+  public id: number
 
   public readonly trailers: Metadata = new Metadata()
   public readonly headers: Metadata = new Metadata()
@@ -31,7 +34,10 @@ export class GrpcTsContext<I extends object = any, O extends object = any> {
   public constructor(
     public readonly methodInfo: MethodInfo<I, O>,
     public readonly nestHandler: MessageHandler<I | Observable<I>, GrpcTsContext<I, O>>,
-  ) {}
+  ) {
+    this.userData = {}
+    this.id = id++
+  }
 
   public _transport_getGrpcCall(): grpc.UntypedHandleCall {
     if (!this.methodInfo.clientStreaming) {
