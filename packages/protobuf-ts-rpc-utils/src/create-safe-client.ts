@@ -42,7 +42,7 @@ export function createSafeClient<T extends ServiceInfo>(client: T): SafeClient<T
         call.trailers.catch(() => void 0)
 
         return call.status.then(async (status) => {
-          if (status.code !== '0') {
+          if (status.code !== '0' && status.code !== 'OK') {
             const trailers = await call.trailers
             throw new GrpcStatusError(status.detail, status, trailers)
           }
